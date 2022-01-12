@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
 let db = require('./db/db.json')
-const fs = require('fs')
-// const {v4 : uuidv4} = require('uuid');
+const fs = require('fs');
+const uuid = require('uuid');
 
 
 const app = express();
@@ -30,11 +30,12 @@ app.get('/', (req, res) => {
 
   app.post('/api/notes', (req, res) => {
     let newNote = {
-        id: Math.floor(Math.random() *1000),
+        id: uuid.v4(),
         title: req.body.title,
         text: req.body.text 
     }
     db.push(newNote)
+    
     fs.writeFileSync(('./db/db.json', JSON.stringify(db), function(err) {
         if (err) {
           console.log(err) 
