@@ -4,6 +4,12 @@ let db = require('./db/db.json')
 const fs = require('fs');
 const uuid = require('uuid');
 
+const newUuid = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  };
+
 
 const app = express();
 const PORT = 3001;
@@ -30,7 +36,7 @@ app.get('/', (req, res) => {
 
   app.post('/api/notes', (req, res) => {
     let newNote = {
-        id: uuid.v4(),
+        id: newUuid(),
         title: req.body.title,
         text: req.body.text 
     }
