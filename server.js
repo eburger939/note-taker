@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
-const db = require('./db/db.json')
+let db = require('./db/db.json')
 const fs = require('fs')
-// const {v4 : uuidv4} = require('uuid')
+// const {v4 : uuidv4} = require('uuid');
+
 
 const app = express();
 const PORT = 3001;
@@ -19,21 +20,37 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/notes.html'));
   });
 
+///////////////////////////////////////////////
+
+
+  app.get('/api/notes', (req, res) => {
+  db = JSON.parse(fs.readFileSync('./db/db.json')) || []
+  res.json(db);
+})
 
   app.post('/api/notes', (req, res) => {
-    let note = {
+    let newNote = {
+        id: Math.floor(Math.random() *1000),
         title: req.body.title,
-        text: req.body.text
+        text: req.body.text 
     }
-    db.push(note)
+    db.push(newNote)
+    fs.writeFileSync(('./db/db.json', JSON.stringify(db), function(err) {
+        if (err) {
+          console.log(err) 
+        }
+    } )) 
     res.json(db)
   })
 
-  app.get('/api/notes', (req, res) => res.json(db));
 
-//   app.post('/api/notes', (req, res) =>{
+app.delete('/api/notes/:id', (req, res) => {
+    let eraseNote = req.params.id
+    let newList = db.filter(note => note.id != eraseNote)
+    db = newList
+    res.json(db)
+})
 
-//   })
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
