@@ -11,3 +11,10 @@
 ![screenshot](SS2.png)
 
 ## Link to deployed application
+https://note-taker-uofahw.herokuapp.com/
+
+## Heroku git URL
+https://git.heroku.com/note-taker-uofahw.git
+
+## Link to GitHub repository
+https://github.com/eburger939/note-taker
