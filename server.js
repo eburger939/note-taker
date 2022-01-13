@@ -3,10 +3,10 @@ const path = require('path');
 const api = require('./routes')
 // Helper method for generating unique ids
 
-
+const app = express();
 const PORT = process.env.port || 3001;
 
-const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -14,7 +14,7 @@ app.use(express.static('public'));
 app.use('/api', api)
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, '/public/index.html'));
   });
 
   app.get('/notes', (req, res) => {
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
   });
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, '/public/index.html'));
   });
 
 app.listen(PORT, () => {
